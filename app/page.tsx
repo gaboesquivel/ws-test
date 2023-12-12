@@ -37,12 +37,10 @@ export default function App() {
     <div>
       <p>Overmind Chat</p>
       <ul>
-      {messages.map(({user, body}, index) => {
-        console.log({user, body})
-        return (<li key={index}>
-        <span className={`text-[${user.color.toString()}]`}>{user.name}</span> {body}
-      </li>)
-      })}
+      {messages.map(({user, body}, index) => <li key={index}>
+        <span style={{color: user.color}}>{user.name}</span> {body}
+      </li>
+      )}
       </ul>
 
     </div>
