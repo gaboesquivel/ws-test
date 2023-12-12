@@ -1,14 +1,6 @@
 "use client"
 
-import React, { useCallback, useEffect, useState } from "react";
-
-const connectToServer = () => {
-  const socket = new WebSocket("wss://server-production-b4cf.up.railway.app");
-
-  socket.onmessage = (event) => console.log(event);
-
-  return socket;
-};
+import React, { useEffect, useState } from "react";
 
 export default function App() {
   const [socket, setSocket] = useState<WebSocket>()
@@ -17,11 +9,7 @@ export default function App() {
   // connect to socket on load
   useEffect(() => {
     console.log('► connecting to socket server')
-    const socket = connectToServer()
-    setSocket(socket)
-
-
-
+    setSocket(new WebSocket("wss://server-production-b4cf.up.railway.app"))
   }, [setSocket])
 
   // subscribe to message event and put them on state
@@ -29,6 +17,7 @@ export default function App() {
     if(!socket) return
     socket.onmessage = (message) =>  {
       console.log('got message from socket', message.data)
+      // we assume values in message.data are already sanitized
       setMessages([...messages, JSON.parse(message.data) as Message])
     }
   }, [messages, setMessages, socket] )
